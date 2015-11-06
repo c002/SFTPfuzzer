@@ -1,0 +1,2 @@
+# sftpfuzzer
+Simple FTP Fuzzer
