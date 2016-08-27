@@ -1,5 +1,5 @@
-#Simple FTP Fuzzer written in Python (Gattorete@Home)
-#Author: 0x8b30cc [Davide Pataracchia] (Gattorete@Home)
+#Simple FTP Fuzzer written in Python
+#Author: 0x8b30cc [Davide Pataracchia] (www.0x8b30cc.xyz)
 #Licensed under GNU GENERAL PUBLIC LICENSE (GPLv3)
 
 import sys
@@ -16,17 +16,16 @@ port = 21
 
 #Show a very cool banner on startup (no cats this time)
 def banner():
-	print
-	print "***************************************************************"
-	print "SIMPLE FTP FUZZER "
-	print "Find out buffer owerflows in username and password field (FTP)"
-	print "Author : 0x8b30cc (Gattorete@Home)"
-	print "Licensed under GNU GENERAL PUBLIC LICENSE (GPLv3) "
-	print "Version 1.0"
-	print "***************************************************************"
-	print
-	print "Usage: SFTPfuzzer.py  -t <target>  -p <port>"
-	print	
+	print("")
+	print ("***************************************************************")
+	print ("SIMPLE FTP FUZZER ")
+	print ("Find out buffer owerflows in username and password field (FTP)")
+	print ("Author : 0x8b30cc (www.0x8b30cc.xyz)")
+	print ("Licensed under GNU GENERAL PUBLIC LICENSE (GPLv3) ")
+	print ("***************************************************************")
+	print ("")
+	print ("Usage: SFTPfuzzer.py  -t <target>  -p <port>")
+	print ("")
 
 #Fill buffer with "A"*fuzz_len
 def fillList(fuzz_len):
@@ -42,44 +41,44 @@ def fuzzUsername(host , port):
 		s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		connect = s.connect((host,port))
 		output = s.recv(1024)
-		print "<< " + output
-		print "[INFO] Sending evil buffer:  [AAAAAA...]"
+		print ("<< " + output)
+		print ("[INFO] Sending evil buffer:  [AAAAAA...]")
 		s.send("USER " + "".join(evil_buffer) + "\r\n")		
 		output = s.recv(1024)
-		print "<< " + output
-		print "[INFO] Closing connection..."
+		print ("<< " + output)
+		print ("[INFO] Closing connection...")
 		s.close()
 	except:
-		print "[ERROR] Connection refused. Or server crashed? "		
+		print ("[ERROR] Connection refused. Or server crashed? ")		
 
 #Fuzz the password field with the evil buffer 
 def fuzzPassword(host, port):
-	print "[INFO] Fuzzing password field"	
+	print ("[INFO] Fuzzing password field")	
 	try:
 		s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		connect = s.connect((host,port))
 		output = s.recv(1024)
-		print "<< " + output
-		print "[INFO] Logging in..."
+		print ("<< " + output)
+		print ("[INFO] Logging in...")
 		s.send("USER " + "evilcat" +"\r\n")
 		output = s.recv(1024)
-		print "<< " + output
-		print "[INFO] Sending evil buffer: [AAAAAA...]"		
+		print ("<< " + output)
+		print ("[INFO] Sending evil buffer: [AAAAAA...]")		
 		s.send("PASS " + "".join(evil_buffer) + "\r\n")		
 		output = s.recv(1024)
-		print "<<  "+ output 
-		print "[INFO] Closing connection..."
+		print ("<<  "+ output)
+		print ("[INFO] Closing connection...")
 		s.close()
 	except:
-		print "[ERROR] Connection refused. Or server crashed? "		
+		print ("[ERROR] Connection refused. Or server crashed? ")		
 
 def main(host,port):
 	if  (arguments_bol == False):
 		host = raw_input("RHOST: ") #Ask for target ip
 		port = input ("RPORT: ") #Ask for target port
 	else:
-		print "RHOST: " + host #Show target ip
-		print "RPORT: " + str(port)# Show target port
+		print ("RHOST: " + host) #Show target ip
+		print ("RPORT: " + str(port))# Show target port
 	fuzz_len = input("Fuzz string lenght (A): ") #Ask the lenght of the fuzz srtring (A)
 	fillList(fuzz_len) #Fill the evil buffer with "A"*fuzz_len
 	
@@ -95,7 +94,7 @@ def main(host,port):
 			fuzzUser = False
 			check = True
 		else:
-			print "[ERROR] Please answer with (y/n)"
+			print ("[ERROR] Please answer with (y/n)")
 	
 	#Ask if password field will be fuzzed:
 	check = False
@@ -109,7 +108,7 @@ def main(host,port):
 			fuzzPass = False
 			check = True
 		else:
-			print "[ERROR] Please answer with (y/n)"
+			print ("[ERROR] Please answer with (y/n)")
 	print ""
 	
 	if (fuzzUser == True and fuzzPass == True):
@@ -120,7 +119,7 @@ def main(host,port):
 	elif (fuzzUser == False and fuzzPass == True):
 		fuzzPassword(host,port)
 	else:
-		print "[ERROR] Unknown error"
+		print ("[ERROR] Unknown error")
 		
 try:
 	if len(sys.argv[1:]): #Check for command line options
@@ -136,4 +135,4 @@ try:
 	banner()
 	main(host,port)
 except:	
-	print "\n[INFO] Quitting..."
+	print ("\n[INFO] Quitting...")
