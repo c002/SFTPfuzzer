@@ -36,7 +36,7 @@ def fillList(fuzz_len):
 
 #Fuzz the username field with the evil buffer 
 def fuzzUsername(host , port):
-	print "[INFO] Fuzzing username field"	
+	print ("[INFO] Fuzzing username field")
 	try:
 		s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 		connect = s.connect((host,port))
@@ -109,7 +109,7 @@ def main(host,port):
 			check = True
 		else:
 			print ("[ERROR] Please answer with (y/n)")
-	print ""
+	print ("")
 	
 	if (fuzzUser == True and fuzzPass == True):
 		fuzzUsername(host,port)
